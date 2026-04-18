@@ -22,16 +22,6 @@ struct ScrollTestView: View {
                         .cornerRadius(10)
                         .padding(.horizontal)
                 }
-                
-
-                Image(systemName: "hand.draw")
-                    .offset(dragAmount)
-                    .gesture(
-                        DragGesture()
-                            .onChanged {
-                                dragAmount = $0.translation
-                            }
-                    )
                 Text("Hello, World!")
                     .onAppear {
                         print("View has appeared!")
