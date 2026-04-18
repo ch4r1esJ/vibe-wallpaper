@@ -13,9 +13,6 @@ struct GenerateButtonView: View {
             print("Watever")
         } label: {
             HStack(spacing: 15) {
-//                Image(systemName: "sparkles")
-//                    .scaleEffect(2)
-//                    .symbolEffect(.wiggle)
                 FloatingSparklesView()
                 
                 Text("Generate Wallpaper")
@@ -35,10 +32,6 @@ struct GenerateButtonView: View {
         }
         
     }
-}
-
-#Preview {
-    GenerateButtonView()
 }
 
 struct FloatingSparklesView: View {
@@ -72,6 +65,13 @@ struct FloatingSparklesView: View {
                     )
             }
             .offset(x: -7, y: 3)
+            .onAppear {
+                print(angle)
+            }
         }
     }
+}
+
+#Preview {
+    GenerateButtonView()
 }
