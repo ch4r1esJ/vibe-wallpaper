@@ -26,6 +26,7 @@ struct HomeView: View {
                 if !isCollapsed {
                     GenerateButtonView()
                         .padding(.top, 300)
+                        .transition(.opacity)
                 }
             }
             .frame(height: isCollapsed ? 230 : 365)
@@ -44,7 +45,9 @@ struct HomeView: View {
                                     let shouldCollapse = isCollapsed ? newValue < -30 : newValue < -50
                                     if shouldCollapse != isCollapsed {
                                         DispatchQueue.main.async {
-                                            isCollapsed = shouldCollapse
+                                            withAnimation(.easeOut(duration: 0.4)) {
+                                                isCollapsed = shouldCollapse
+                                            }
                                         }
                                     }
                                 }
@@ -56,11 +59,12 @@ struct HomeView: View {
                 if isCollapsed {
                     GenerateButtonView()
                         .padding(.top, 450)
-                        .transition(.move(edge: .top).combined(with: .opacity))
+                        .transition(.opacity)
+//                        .transition(.move(edge: .top).combined(with: .opacity))
                 }
             }
         }
-        .animation(.easeOut(duration: 0.3), value: isCollapsed)
+//        .animation(.easeOut(duration: 0.3), value: isCollapsed)
         .ignoresSafeArea(edges: .top)
     }
     
