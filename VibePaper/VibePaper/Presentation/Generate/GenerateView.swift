@@ -1,0 +1,77 @@
+//
+//  GenerateView.swift
+//  VibePaper
+//
+//  Created by Charles Janjgava on 4/19/26.
+//
+
+import SwiftUI
+
+struct GenerateView: View {
+    @State private var prompt: String = ""
+    var body: some View {
+        VStack(spacing: 10) {
+            Text("Describe your desired wallpaper")
+                .font(.custom("Bitcount Grid Double Ink", size: 19))
+                .foregroundStyle(.indigo)
+            
+            HStack {
+                ZStack(alignment: .leading) {
+                    if prompt.isEmpty {
+                        Text("Write anything you’d like")
+                            .foregroundStyle(.gray.opacity(0.7))
+                            .font(.system(size: 21, weight: .semibold))
+                            .padding(.horizontal, 24)
+                    }
+                    
+                    TextField("", text: $prompt)
+                        .font(.system(size: 18, weight: .medium))
+                        .foregroundStyle(.black)
+                        .padding(.vertical, 25)
+                        .padding(.horizontal, 24)
+                }
+                Spacer()
+                Text("\(prompt.count)/500")
+                    .foregroundStyle(.gray)
+                    .font(.subheadline)
+                    .padding(.trailing, 16)
+            }
+            .background(Color.white)
+            .clipShape(RoundedRectangle(cornerRadius: 35))
+            .overlay {
+                RoundedRectangle(cornerRadius: 35)
+                    .stroke(Color.indigo, lineWidth: 2)
+            }
+            .padding(.horizontal)
+            
+            PresetPicker()
+                .padding(.top, 5)
+            
+            Text("Choose an art style")
+                .padding(.top)
+                .font(.system(size: 20, weight: .light))
+            
+            Spacer()
+            
+            GenerateButtonView { }
+                .padding(.bottom)
+        }
+        
+    }
+}
+
+#Preview {
+    GenerateView()
+}
+
+struct RoundedTextFieldStyle: TextFieldStyle {
+    func _body(configuration: TextField<Self._Label>) -> some View {
+        configuration
+            .padding(.vertical)
+            .padding(.horizontal, 24)
+            .background(
+                Color(UIColor.systemGray6)
+            )
+            .clipShape(Capsule(style: .continuous))
+    }
+}
