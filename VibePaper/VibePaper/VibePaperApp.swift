@@ -11,7 +11,7 @@ import SwiftUI
 struct VibePaperApp: App {
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            PresetPicker()
         }
     }
 }
