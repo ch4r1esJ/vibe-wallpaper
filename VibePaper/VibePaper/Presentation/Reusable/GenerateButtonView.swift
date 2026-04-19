@@ -11,10 +11,12 @@ struct GenerateButtonView: View {
     @State private var pulse1 = false
     @State private var pulse2 = false
     @State private var pulse3 = false
+    var action: () -> ()
     
     var body: some View {
+        
         Button {
-            print("Watever")
+            action()
         } label: {
             HStack(spacing: 15) {
                 FloatingSparklesView()
@@ -29,22 +31,22 @@ struct GenerateButtonView: View {
             .background {
                 ZStack {
                     Capsule()
-                        .fill(Color.indigo.opacity(0.2))
+                        .fill(Color.indigo.opacity(0.15))
                         .scaleEffect(x: pulse3 ? 1.35 : 1.0, y: pulse3 ? 1.6 : 1.0)
                         .opacity(pulse3 ? 0 : 1)
                     
                     Capsule()
-                        .fill(Color.indigo.opacity(0.3))
+                        .fill(Color.indigo.opacity(0.25))
                         .scaleEffect(x: pulse2 ? 1.25 : 1.0, y: pulse2 ? 1.45 : 1.0)
                         .opacity(pulse2 ? 0 : 1)
                     
                     Capsule()
-                        .fill(Color.indigo.opacity(0.4))
+                        .fill(Color.indigo.opacity(0.35))
                         .scaleEffect(x: pulse1 ? 1.15 : 1.0, y: pulse1 ? 1.3 : 1.0)
                         .opacity(pulse1 ? 0 : 1)
                     
                     Capsule()
-                        .fill(Color.indigo)
+                        .fill(LinearGradient.indigoGradient)
                         .shadow(color: .indigo, radius: 15)
                 }
             }
@@ -102,6 +104,6 @@ struct FloatingSparklesView: View {
     }
 }
 
-#Preview {
-    GenerateButtonView()
-}
+//#Preview {
+//    GenerateButtonView(action: action())
+//}

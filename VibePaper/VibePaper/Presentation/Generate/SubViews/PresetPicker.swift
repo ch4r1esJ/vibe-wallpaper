@@ -21,7 +21,7 @@ struct PresetPicker: View {
                         .fontWeight(.medium)
                         .background {
                             Rectangle()
-                                .fill(Color.indigo.opacity(tapped == preset ? 0.4 : 0.2))
+                                .fill(Color.indigo.opacity(tapped == preset ? 0.4 : 0.1))
                                 .cornerRadius(14)
                         }
                         .scaleEffect(tapped == preset ? 1.05 : 1.0)
@@ -37,9 +37,9 @@ struct PresetPicker: View {
                         }
                 }
             }
-            .padding(9)
+//            .padding(9)
         }
-        .contentMargins(.leading, 16, for: .scrollContent)
+        .contentMargins(.leading, 15, for: .scrollContent)
     }
 }
 
