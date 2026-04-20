@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PresetPicker: View {
     @State private var tapped: Preset? = nil
+    var onSelect: (String) -> Void = { _ in }
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -29,6 +30,7 @@ struct PresetPicker: View {
                             withAnimation(.spring()) {
                                 tapped = preset
                             }
+                            onSelect(preset.rawValue)
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                 withAnimation(.spring()) {
                                     tapped = nil
@@ -37,7 +39,6 @@ struct PresetPicker: View {
                         }
                 }
             }
-//            .padding(9)
         }
         .contentMargins(.leading, 15, for: .scrollContent)
     }

@@ -59,8 +59,14 @@ struct GenerateView: View {
             }
             .padding(.horizontal)
             
-            PresetPicker()
-                .padding(.top, 5)
+            PresetPicker(onSelect: { preset in
+                if prompt.isEmpty {
+                    prompt = preset
+                } else {
+                    prompt += ", \(preset)"
+                }
+            })
+            .padding(.top, 5)
             
             if !isFocused {
                 Text("Choose an art style")
