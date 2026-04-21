@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct ArtStyle: View {
-    var rows  = Array(repeating: GridItem(.flexible()), count: 1)
+    var rows  = Array(repeating: GridItem(.fixed(270)), count: 1)
+    @State private var selected: Int? = nil
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -19,6 +20,15 @@ struct ArtStyle: View {
                             .frame(width: 240, height: 270)
                             .background(Color.blue)
                             .cornerRadius(25)
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 25)
+                                    .stroke(Color.indigo, lineWidth: selected == index ? 4 : 0)
+                            }
+                            .onTapGesture {
+                                withAnimation(.spring()) {
+                                    selected = index
+                                }
+                            }
                         Text("Style \(index)")
                             .padding(.top, 15)
                             .foregroundStyle(.indigo)
@@ -27,7 +37,10 @@ struct ArtStyle: View {
                 }
             }
         }
-        
+        .frame(height: 330)
+        .contentMargins(.leading, 15, for: .scrollContent)
+        .contentMargins(.trailing, 15, for: .scrollContent)
+//        .contentMargins(.top, 10, for: .scrollContent)
     }
 }
 
