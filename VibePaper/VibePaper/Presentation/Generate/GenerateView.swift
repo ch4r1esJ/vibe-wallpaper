@@ -18,7 +18,7 @@ struct GenerateView: View {
                 .foregroundStyle(.indigo)
                 .padding(.top)
             
-            HStack {
+            HStack(alignment: .center) {
                 ZStack(alignment: .topLeading) {
                     if prompt.isEmpty && !isFocused {
                         Text("Write anything you’d like")
@@ -29,27 +29,26 @@ struct GenerateView: View {
                     }
                     
                     TextEditor(text: $prompt)
-                            .font(.system(size: 18, weight: .medium))
-                            .foregroundStyle(.black)
-                            .scrollContentBackground(.hidden)
-                            .padding(.horizontal, 20)
-                            .padding(.vertical, 12)
-                            .focused($isFocused)
-                            .frame(height: isFocused ? 250 : 70)
-                            .animation(.easeOut(duration: 0.9), value: isFocused)
-                            .onChange(of: prompt) { newValue in
-                                   if newValue.last == "\n" {
-                                       prompt = String(newValue.dropLast())
-                                       isFocused = false
-                                   }
-                               }
+                        .font(.system(size: 18, weight: .medium))
+                        .foregroundStyle(.black)
+                        .scrollContentBackground(.hidden)
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 12)
+                        .focused($isFocused)
+                        .frame(height: isFocused ? 250 : 70)
+                        .animation(.easeOut(duration: 0.9), value: isFocused)
+                        .onChange(of: prompt) { newValue in
+                            if newValue.last == "\n" {
+                                prompt = String(newValue.dropLast())
+                                isFocused = false
+                            }
+                        }
                 }
                 Spacer()
                 Text("\(prompt.count)/500")
                     .foregroundStyle(.gray)
                     .font(.subheadline)
                     .padding(.trailing, 16)
-                    .padding(.top, isFocused ? 80 : 0)
             }
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: 35))
@@ -72,20 +71,11 @@ struct GenerateView: View {
                 Text("Choose an art style")
                     .padding(.top)
                     .font(.system(size: 20, weight: .light))
+                ArtStyle()
+                    .padding(.top, 70)
             }
             
             Spacer()
-            
-            ScrollView() {
-                if !isFocused {
-                    ArtStyle()
-                    .padding(.top, 70)
-                    .padding(.horizontal)
-                }
-
-            }
-            
-            
             
             GenerateButtonView { }
                 .padding(.bottom, 15)
