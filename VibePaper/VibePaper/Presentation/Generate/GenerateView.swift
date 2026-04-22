@@ -6,11 +6,19 @@
 //
 
 import SwiftUI
+import FirebaseAI
 
 struct GenerateView: View {
     @State private var prompt: String = ""
     @FocusState private var isFocused: Bool
     @State private var isExpanded: Bool = false
+    
+    // Gemini
+    let model = FirebaseAI.firebaseAI(backend: .googleAI())
+        .generativeModel(modelName: "gemini-2.5-flash")
+    @State private var userPrompt = ""
+    @State private var aiResponse = ""
+    @State private var isLoading = false
     
     var body: some View {
         VStack(spacing: 10) {
@@ -93,10 +101,30 @@ struct GenerateView: View {
             
             Spacer()
             
-            GenerateButtonView { }
+            Text(aiResponse)
+            
+            GenerateButtonView {
+                sendMessage()
+            }
                 .padding(.bottom, 15)
         }
         .animation(.easeOut(duration: 0.3), value: isExpanded)
+    }
+    
+    func sendMessage() {
+        let prompt = prompt
+        userPrompt = ""
+        aiResponse = ""
+        
+        Task {
+            do {
+                let response = try await model.generateContent(prompt)
+                aiResponse = response.text ?? "No Response"
+            }
+            catch {
+                aiResponse = "Error: \(error.localizedDescription)"
+            }
+        }
     }
 }
 

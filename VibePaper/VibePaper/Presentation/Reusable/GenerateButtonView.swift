@@ -103,7 +103,3 @@ struct FloatingSparklesView: View {
         }
     }
 }
-
-//#Preview {
-//    GenerateButtonView(action: action())
-//}
