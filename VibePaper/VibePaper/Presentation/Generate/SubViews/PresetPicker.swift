@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PresetPicker: View {
     @State private var tapped: Preset? = nil
-    var onSelect: (String) -> Void = { _ in }
+    var onSelect: (String) -> Void
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -77,6 +77,6 @@ enum Preset: String, CaseIterable {
     case cyberpunk = "Cyberpunk"
 }
 
-#Preview {
-    PresetPicker()
-}
+//#Preview {
+//    PresetPicker()
+//}
