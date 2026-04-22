@@ -6,10 +6,19 @@
 //
 
 import SwiftUI
+import FirebaseAI
 
 struct GenerateView: View {
     @State private var prompt: String = ""
     @FocusState private var isFocused: Bool
+    @State private var isExpanded: Bool = false
+    
+    // Gemini
+    let model = FirebaseAI.firebaseAI(backend: .googleAI())
+        .generativeModel(modelName: "gemini-2.5-flash")
+    @State private var userPrompt = ""
+    @State private var aiResponse = ""
+    @State private var isLoading = false
     
     var body: some View {
         VStack(spacing: 10) {
@@ -21,7 +30,7 @@ struct GenerateView: View {
             HStack(alignment: .center) {
                 ZStack(alignment: .topLeading) {
                     if prompt.isEmpty && !isFocused {
-                        Text("Write anything you’d like")
+                        Text("Write anything you'd like")
                             .foregroundStyle(.gray.opacity(0.7))
                             .font(.system(size: 21, weight: .semibold))
                             .padding(.horizontal, 24)
@@ -36,11 +45,22 @@ struct GenerateView: View {
                         .padding(.vertical, 12)
                         .focused($isFocused)
                         .frame(height: isFocused ? 250 : 70)
-                        .animation(.easeOut(duration: 0.9), value: isFocused)
+                        .animation(.easeOut(duration: 0.3), value: isFocused)
                         .onChange(of: prompt) { newValue in
                             if newValue.last == "\n" {
                                 prompt = String(newValue.dropLast())
                                 isFocused = false
+                            }
+                        }
+                        .onChange(of: isFocused) { newValue in
+                            if newValue {
+                                isExpanded = true
+                            } else {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                    withAnimation(.easeOut(duration: 0.3)) {
+                                        isExpanded = false
+                                    }
+                                }
                             }
                         }
                 }
@@ -67,20 +87,44 @@ struct GenerateView: View {
             })
             .padding(.top, 5)
             
-            if !isFocused {
-                Text("Choose an art style")
-                    .padding(.top)
-                    .font(.system(size: 20, weight: .light))
-                ArtStyle()
-                    .padding(.top, 70)
+            if !isExpanded {
+                VStack(spacing: 10) {
+                    Text("Choose an art style")
+                        .font(.system(size: 20, weight: .light))
+                        .transition(.opacity.combined(with: .move(edge: .bottom)))
+                    
+                    ArtStyle()
+                        .transition(.opacity.combined(with: .move(edge: .bottom)))
+                }
+                .padding(.top, 70)
             }
             
             Spacer()
             
-            GenerateButtonView { }
+            Text(aiResponse)
+            
+            GenerateButtonView {
+                sendMessage()
+            }
                 .padding(.bottom, 15)
         }
+        .animation(.easeOut(duration: 0.3), value: isExpanded)
+    }
+    
+    func sendMessage() {
+        let prompt = prompt
+        userPrompt = ""
+        aiResponse = ""
         
+        Task {
+            do {
+                let response = try await model.generateContent(prompt)
+                aiResponse = response.text ?? "No Response"
+            }
+            catch {
+                aiResponse = "Error: \(error.localizedDescription)"
+            }
+        }
     }
 }
 
