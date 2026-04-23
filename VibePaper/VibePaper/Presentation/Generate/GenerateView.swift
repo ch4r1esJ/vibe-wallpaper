@@ -6,19 +6,19 @@
 //
 
 import SwiftUI
-import FirebaseAI
 
 struct GenerateView: View {
+    @EnvironmentObject var coordinator: AppCoordinator
+    
     @State private var prompt: String = ""
     @FocusState private var isFocused: Bool
     @State private var isExpanded: Bool = false
+
     
-    // Gemini
-    let model = FirebaseAI.firebaseAI(backend: .googleAI())
-        .generativeModel(modelName: "gemini-2.5-flash")
     @State private var userPrompt = ""
     @State private var aiResponse = ""
     @State private var isLoading = false
+    @State private var generatedImage: UIImage? = nil
     
     var body: some View {
         VStack(spacing: 10) {
@@ -101,28 +101,56 @@ struct GenerateView: View {
             
             Spacer()
             
-            Text(aiResponse)
+            if let image = generatedImage {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFit()
+            }
             
             GenerateButtonView {
-                sendMessage()
+                Task {
+                    await generateImage()
+                }
             }
-                .padding(.bottom, 15)
+            .padding(.bottom, 15)
         }
         .animation(.easeOut(duration: 0.3), value: isExpanded)
-    }
-    
-    func sendMessage() {
-        let prompt = prompt
-        userPrompt = ""
-        aiResponse = ""
         
-        Task {
-            do {
-                let response = try await model.generateContent(prompt)
-                aiResponse = response.text ?? "No Response"
-            }
-            catch {
-                aiResponse = "Error: \(error.localizedDescription)"
+    }
+
+    func generateImage() async {
+        var request = URLRequest(url: URL(string: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent")!)
+        request.setValue(Secrets.geminiAPIKey, forHTTPHeaderField: "x-goog-api-key")
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let body: [String: Any] = [
+            "contents": [["parts": [["text": prompt]]]],
+            "generationConfig": ["responseModalities": ["TEXT", "IMAGE"]]
+        ]
+        
+        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
+        
+        guard let (data, _) = try? await URLSession.shared.data(for: request) else { return }
+        
+        print(String(data: data, encoding: .utf8) ?? "no data")
+        
+        if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+           let candidates = json["candidates"] as? [[String: Any]],
+           let content = candidates.first?["content"] as? [String: Any],
+           let parts = content["parts"] as? [[String: Any]] {
+            
+            for part in parts {
+                if let inlineData = part["inlineData"] as? [String: Any],
+                   let base64String = inlineData["data"] as? String,
+                   let imageData = Data(base64Encoded: base64String) {
+                    await MainActor.run {
+                        if let image = UIImage(data: imageData) {
+                            coordinator.navigate(to: .wallpaperResult(image))
+                        }
+                    }
+                    return
+                }
             }
         }
     }
