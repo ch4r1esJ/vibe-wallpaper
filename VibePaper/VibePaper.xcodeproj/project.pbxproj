@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		561407822F98FF80002AC360 /* FirebaseAI in Frameworks */ = {isa = PBXBuildFile; productRef = 561407812F98FF80002AC360 /* FirebaseAI */; };
 		561407842F98FF80002AC360 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 561407832F98FF80002AC360 /* FirebaseAuth */; };
 		561407862F98FF80002AC360 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 561407852F98FF80002AC360 /* FirebaseFirestore */; };
 		561407882F98FF80002AC360 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 561407872F98FF80002AC360 /* FirebaseStorage */; };
@@ -43,7 +42,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				561407822F98FF80002AC360 /* FirebaseAI in Frameworks */,
 				561407882F98FF80002AC360 /* FirebaseStorage in Frameworks */,
 				561407842F98FF80002AC360 /* FirebaseAuth in Frameworks */,
 				561407862F98FF80002AC360 /* FirebaseFirestore in Frameworks */,
@@ -89,7 +87,6 @@
 			);
 			name = VibePaper;
 			packageProductDependencies = (
-				561407812F98FF80002AC360 /* FirebaseAI */,
 				561407832F98FF80002AC360 /* FirebaseAuth */,
 				561407852F98FF80002AC360 /* FirebaseFirestore */,
 				561407872F98FF80002AC360 /* FirebaseStorage */,
@@ -372,17 +369,12 @@
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 12.12.1;
+				minimumVersion = 12.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		561407812F98FF80002AC360 /* FirebaseAI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 561407802F98FF80002AC360 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAI;
-		};
 		561407832F98FF80002AC360 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 561407802F98FF80002AC360 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

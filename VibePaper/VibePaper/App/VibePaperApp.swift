@@ -28,6 +28,8 @@ struct VibePaperApp: App {
                     .navigationDestination(for: Route.self) { route in
                         switch route {
                         case .generateView: GenerateView()
+                        case .wallpaperResult(let image):
+                            WallpaperResultView(image: image)
                         }
                     }
             }
