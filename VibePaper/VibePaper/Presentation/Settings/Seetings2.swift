@@ -1,8 +1,8 @@
 //
-//  SettingsView.swift
+//  Seetings2.swift
 //  VibePaper
 //
-//  Created by Charles Janjgava on 4/24/26.
+//  Created by Charles Janjgava on 4/25/26.
 //
 
 import SwiftUI
@@ -12,6 +12,7 @@ struct SettingsView: View {
     
     var body: some View {
         VStack(spacing: 0) {
+            // Header
             ZStack {
                 Text("Settings")
                     .font(.headline)
@@ -35,7 +36,9 @@ struct SettingsView: View {
             
             ScrollView {
                 VStack(spacing: 20) {
+                    // Pro Banner
                     ZStack(alignment: .bottomLeading) {
+                        // background image placeholder
                         RoundedRectangle(cornerRadius: 20)
                             .fill(LinearGradient(
                                 colors: [.purple, .indigo, .blue],
@@ -52,6 +55,7 @@ struct SettingsView: View {
                                 .frame(maxWidth: .infinity)
                             
                             Button {
+                                // purchase
                             } label: {
                                 HStack(spacing: 10) {
                                     Image(systemName: "crown.fill")
@@ -69,6 +73,7 @@ struct SettingsView: View {
                     }
                     .padding(.horizontal)
                     
+                    // Menu items
                     VStack(spacing: 12) {
                         SettingsRow(icon: "folder.fill", iconColor: .indigo, title: "My Wallpapers")
                         SettingsRow(icon: "star.fill", iconColor: .indigo, title: "Rate Us")
@@ -77,6 +82,7 @@ struct SettingsView: View {
                     
                     Spacer(minLength: 40)
                     
+                    // Bottom links
                     HStack(spacing: 0) {
                         BottomLink(icon: "lock.shield", title: "Privacy Policy")
                         BottomLink(icon: "arrow.counterclockwise", title: "Restore Purchases")
@@ -134,7 +140,6 @@ struct BottomLink: View {
                 .font(.caption)
                 .foregroundStyle(.gray)
                 .multilineTextAlignment(.center)
-            Text("asdasd")
         }
         .frame(maxWidth: .infinity)
     }
