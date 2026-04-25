@@ -134,6 +134,7 @@ struct BottomLink: View {
                 .font(.caption)
                 .foregroundStyle(.gray)
                 .multilineTextAlignment(.center)
+            Text("asdasd")
         }
         .frame(maxWidth: .infinity)
     }
