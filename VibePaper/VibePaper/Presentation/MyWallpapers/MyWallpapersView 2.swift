@@ -1,8 +1,8 @@
 //
-//  MyWallpapersView.swift
+//  MyWallpapersView 2.swift
 //  VibePaper
 //
-//  Created by Charles Janjgava on 4/26/26.
+//  Created by Charles Janjgava on 4/28/26.
 //
 
 
@@ -103,11 +103,9 @@ struct MyWallpapersView: View {
                 .padding(.horizontal)
                 .padding(.top, 20)
                 .padding(.bottom)
-                Text("Hi")
             }
         }
         .navigationBarHidden(true)
-        
     }
 }
 
