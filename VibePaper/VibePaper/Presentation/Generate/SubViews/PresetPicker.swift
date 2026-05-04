@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PresetPicker: View {
     @State private var tapped: Preset? = nil
-    var onSelect: (String) -> Void
+    var onSelect: (String, String) -> Void
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -30,7 +30,7 @@ struct PresetPicker: View {
                             withAnimation(.spring()) {
                                 tapped = preset
                             }
-                            onSelect(preset.rawValue)
+                            onSelect(preset.rawValue, preset.promptText)
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                 withAnimation(.spring()) {
                                     tapped = nil
@@ -45,36 +45,27 @@ struct PresetPicker: View {
 }
 
 enum Preset: String, CaseIterable {
-    case abstract = "Abstract"
-    case art = "Art"
-    case music = "Music"
-    case future = "Future"
-    case fun = "Fun"
-    case nature = "Nature"
-    case animals = "Animals"
-    case technology = "Technology"
-    case architecture = "Architecture"
-    case people = "People"
-    case travel = "Travel"
-    case food = "Food"
-    case sports = "Sports"
-    case fashion = "Fashion"
-    case space = "Space"
-    case cars = "Cars"
-    case minimal = "Minimal"
-    case vintage = "Vintage"
-    case dark = "Dark"
-    case aesthetic = "Aesthetic"
-    case city = "City"
-    case ocean = "Ocean"
-    case mountains = "Mountains"
-    case sunset = "Sunset"
-    case night = "Night"
-    case street = "Street"
-    case fantasy = "Fantasy"
-    case gaming = "Gaming"
-    case sciFi = "Sci-Fi"
-    case cyberpunk = "Cyberpunk"
+    case cinematic = "Cinematic"
+    case dramatic = "Dramatic Lighting"
+    case moody = "Moody Atmosphere"
+    case vibrant = "Vibrant Colors"
+    case ethereal = "Ethereal Glow"
+    case minimal = "Ultra Minimal"
+    case detailed = "Ultra Detailed"
+    case dreamy = "Dreamy Soft Focus"
+    
+    var promptText: String {
+        switch self {
+        case .cinematic: return "cinematic composition, film quality"
+        case .dramatic: return "dramatic lighting, strong shadows and highlights"
+        case .moody: return "moody dark atmosphere, emotional depth"
+        case .vibrant: return "vibrant saturated colors, eye-catching palette"
+        case .ethereal: return "ethereal soft glow, otherworldly light"
+        case .minimal: return "ultra minimalist, clean and simple"
+        case .detailed: return "ultra detailed, intricate textures, 8K quality"
+        case .dreamy: return "dreamy soft focus, pastel tones, hazy light"
+        }
+    }
 }
 
 //#Preview {

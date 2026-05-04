@@ -14,6 +14,7 @@ struct WallpaperResultView: View {
         Image(uiImage: image)
             .resizable()
             .scaledToFill()
+            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
             .ignoresSafeArea()
     }
 }

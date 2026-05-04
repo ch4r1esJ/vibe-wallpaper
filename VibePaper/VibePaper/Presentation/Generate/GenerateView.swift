@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct GenerateView: View {
+    @EnvironmentObject var coordinator: AppCoordinator
     @FocusState private var isFocused: Bool
     @State private var isExpanded: Bool = false
     @StateObject private var viewModel = GenerateViewModel()
@@ -20,11 +21,13 @@ struct GenerateView: View {
                 .padding(.top)
             Textfield
             
-            PresetPicker(onSelect: { preset in
+            PresetPicker(onSelect: { displayText, promptText in
                 if viewModel.prompt.isEmpty {
-                    viewModel.prompt = preset
+                    viewModel.prompt = displayText
+                    viewModel.fullPromptEnhancements = promptText
                 } else {
-                    viewModel.prompt += ", \(preset)"
+                    viewModel.prompt += ", \(displayText)"
+                    viewModel.fullPromptEnhancements += ", \(promptText)"
                 }
             })
             .padding(.top, 5)
@@ -35,7 +38,7 @@ struct GenerateView: View {
                         .font(.system(size: 20, weight: .light))
                         .transition(.opacity.combined(with: .move(edge: .bottom)))
                     
-                    ArtStyle()
+                    ArtStyle(selectedStyle: $viewModel.selectedArtStyle)
                         .transition(.opacity.combined(with: .move(edge: .bottom)))
                 }
                 .padding(.top, 70)
@@ -45,7 +48,7 @@ struct GenerateView: View {
             
             GenerateButtonView {
                 Task {
-                    await viewModel.generateImage()
+                    await viewModel.generateImage(coordinator: coordinator)
                 }
             }
             .padding(.bottom, 15)
